@@ -4,8 +4,6 @@ namespace AutomaticFileDownloader;
 
 public partial class AutoDownloaderForm : Form
 {
-    List<Panel> downloadPanels = new List<Panel>();
-
     public AutoDownloaderForm()
     {
         InitializeComponent();
@@ -16,33 +14,27 @@ public partial class AutoDownloaderForm : Form
         Console.WriteLine("Form Load");
     }
 
-    private void ButtonAdd_MouseClick(object sender, MouseEventArgs e)
+    private async void ButtonAdd_MouseClick(object sender, MouseEventArgs e)
     {
         Console.WriteLine("Button Add Clicked");
-        Console.WriteLine($"{textBoxLink.Text}");
 
         Panel panel = new Panel()
         {
-            //Location = new Point(50, 50),
             AutoSize = true,
-            BackColor = Color.Transparent,
         };
-        panel.Controls.Add(new Label()
+
+        flowLayoutPanelDownloads.Controls.Add(new Label()
         {
             Location = new Point(2, 2),
             AutoSize = true,
-            ForeColor = Color.Black,
-            Text = "Hello World"
+            ForeColor = Color.White,
+            BackColor = Color.Gray,
+            Text = textBoxLink.Text,
+            MaximumSize = new Size(400, 30)
         });
-        panel.Controls.Add(new System.Windows.Forms.ProgressBar()
-        {
-            Value = 50,
-            Size = new Size(435, 30),
-        });
-        
 
-        flowLayoutPanelDownloads.Controls.Add(panel);
-        downloadPanels.Add(panel);
+        string fileName = textBoxLink.Text.Split("/").Last();
+    await Managers.DownloadManager.DownloadFileAsync(textBoxLink.Text, $"{textBoxTarget.Text}\\{fileName}");
     }
 
     private void ButtonSetTarget_MouseClick(object sender, MouseEventArgs e)
