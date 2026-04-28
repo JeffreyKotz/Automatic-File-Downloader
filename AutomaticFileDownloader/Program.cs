@@ -14,3 +14,11 @@ static class Program
         Application.Run(new AutoDownloaderForm());
     }    
 }
+
+class DownloadManager
+{
+    public static void Test()
+    {
+        Console.WriteLine("HELLO");
+    }
+}

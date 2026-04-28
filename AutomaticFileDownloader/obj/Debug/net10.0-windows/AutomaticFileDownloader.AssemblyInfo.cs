@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AutomaticFileDownloader")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dc45a4ed6053e93ba539df9d1a1978ed881cf3a2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b8c1b9510007ecc09921e201436a4214cdb9e137")]
 [assembly: System.Reflection.AssemblyProductAttribute("AutomaticFileDownloader")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AutomaticFileDownloader")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

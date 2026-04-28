@@ -28,6 +28,7 @@ partial class AutoDownloaderForm
     /// </summary>
     private void InitializeComponent()
     {
+        components = new System.ComponentModel.Container();
         buttonStart = new Button();
         buttonCancel = new Button();
         textBoxLink = new TextBox();
@@ -37,6 +38,8 @@ partial class AutoDownloaderForm
         buttonSetTarget = new Button();
         folderBrowserDialogTarget = new FolderBrowserDialog();
         textBoxTarget = new TextBox();
+        contextMenuStrip1 = new ContextMenuStrip(components);
+        clearDoneButton = new Button();
         SuspendLayout();
         // 
         // buttonStart
@@ -86,6 +89,7 @@ partial class AutoDownloaderForm
         // 
         // flowLayoutPanelDownloads
         // 
+        flowLayoutPanelDownloads.Anchor = AnchorStyles.Top;
         flowLayoutPanelDownloads.AutoScroll = true;
         flowLayoutPanelDownloads.AutoScrollMargin = new Size(1, 0);
         flowLayoutPanelDownloads.AutoScrollMinSize = new Size(1, 0);
@@ -96,6 +100,7 @@ partial class AutoDownloaderForm
         flowLayoutPanelDownloads.Name = "flowLayoutPanelDownloads";
         flowLayoutPanelDownloads.Size = new Size(477, 552);
         flowLayoutPanelDownloads.TabIndex = 4;
+        flowLayoutPanelDownloads.WrapContents = false;
         // 
         // checkBoxAutoStart
         // 
@@ -133,11 +138,29 @@ partial class AutoDownloaderForm
         textBoxTarget.Size = new Size(478, 31);
         textBoxTarget.TabIndex = 7;
         // 
+        // contextMenuStrip1
+        // 
+        contextMenuStrip1.ImageScalingSize = new Size(24, 24);
+        contextMenuStrip1.Name = "contextMenuStrip1";
+        contextMenuStrip1.Size = new Size(61, 4);
+        // 
+        // clearDoneButton
+        // 
+        clearDoneButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        clearDoneButton.Location = new Point(491, 91);
+        clearDoneButton.Name = "clearDoneButton";
+        clearDoneButton.Size = new Size(112, 34);
+        clearDoneButton.TabIndex = 8;
+        clearDoneButton.Text = "Clear Done";
+        clearDoneButton.UseVisualStyleBackColor = true;
+        clearDoneButton.MouseClick += clearDoneButton_MouseClick;
+        // 
         // AutoDownloaderForm
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(615, 641);
+        Controls.Add(clearDoneButton);
         Controls.Add(textBoxTarget);
         Controls.Add(buttonSetTarget);
         Controls.Add(checkBoxAutoStart);
@@ -165,4 +188,6 @@ partial class AutoDownloaderForm
 	private Button buttonSetTarget;
     private FolderBrowserDialog folderBrowserDialogTarget;
     private TextBox textBoxTarget;
+    private ContextMenuStrip contextMenuStrip1;
+    private Button clearDoneButton;
 }
