@@ -56,5 +56,30 @@ namespace AutomaticFileDownloader.Utilities
             _s_cts = new CancellationTokenSource();
             _cancellationToken = _s_cts.Token;
         }
+
+        /// <summary>
+        /// Helper function to determine whether or not a given link is valid
+        /// </summary>
+        /// <param name="link"> Web Link Address to download from</param>
+        /// <returns></returns>
+        public static bool ValidLink(string link)
+        {
+            if (link == null || link.Length <= 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidFilePath(string path)
+        {
+            if (path == null || path.Length <= 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -14,11 +14,12 @@ public partial class AutoDownloaderForm : Form
         Label label = new Label()
         {
             Location = new Point(2, 2),
-            AutoSize = true,
+            Size = new Size(445, 30), // limit to size of box and one line
+            AutoEllipsis = true,
             ForeColor = Color.White,
             BackColor = Color.Black,
             Text = labelText,
-            MaximumSize = new Size(400, 30)
+            Margin = new Padding(0, 0, 0, 2),
         };
 
         flowLayoutPanelDownloads.Controls.Add(label);
@@ -44,20 +45,26 @@ public partial class AutoDownloaderForm : Form
         string linkText = textBoxLink.Text;
         string targetFile = textBoxTarget.Text;
 
-        if ( ! Utilities.DownloadHandler.ValidLink(linkText) || ! Utilities.DownloadHandler.ValidFilePath(targetFile))
+        if ( ! Utilities.Downloader.ValidLink(linkText) || ! Utilities.Downloader.ValidFilePath(targetFile))
         {
-            MessageBox.Show("Both web address and file path are required to add download.");
+            MessageBox.Show("Both web address and file path must be given to add download.");
         }
         else
         {
             Utilities.DownloadActions actions = AddDownloadLabel(linkText);
 
-            // Queue the download
+            // Queue the downloads
             Utilities.DownloadHandler.AddDownload(linkText, targetFile, actions);
 
             // Clear text
             textBoxLink.Text = null;
             textBoxTarget.Text = null;
+
+            // Start automatically if check box is checked
+            if (checkBoxAutoStart.Checked)
+            {
+                Utilities.DownloadHandler.StartDownload();
+            }
         }
     }
 
@@ -78,23 +85,13 @@ public partial class AutoDownloaderForm : Form
     {
         await Utilities.DownloadHandler.CancelDownload();
     }
-
-    private void FolderBrowserDialogTarget_HelpRequest(object sender, EventArgs e)
+    private void clearDoneButton_MouseClick(object sender, MouseEventArgs e)
     {
-
+        Utilities.DownloadHandler.Dispose();
     }
+
     private void fileSaveDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
     {
 
-    }
-
-    private void clearDoneButton_MouseClick(object sender, MouseEventArgs e)
-    {
-
-    }
-
-    private void clearDoneButton_Click(object sender, EventArgs e)
-    {
-        Utilities.DownloadHandler.Dispose();
     }
 }

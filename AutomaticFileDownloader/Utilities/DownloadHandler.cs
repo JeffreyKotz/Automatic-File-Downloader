@@ -31,10 +31,22 @@ namespace AutomaticFileDownloader.Utilities
                     _cancel -= actions.DownloadCancelled; // Can't cancel what you already finished :P
                 }
                 catch (OperationCanceledException) {} // no op, other method already handles cancellation logic
-                catch (Exception ex)
+                catch (HttpRequestException ex) // Issue with request
                 {
                     actions.DownloadFailed?.Invoke();
-                    _cancel -= actions.DownloadCancelled; // can't cancell when it fails
+                    _cancel -= actions.DownloadCancelled; // can't cancel when it fails
+                    MessageBox.Show(ex.Message);
+                }
+                catch (IOException ex) // Issue with file operations
+                {
+                    actions.DownloadFailed?.Invoke();
+                    _cancel -= actions.DownloadCancelled; // can't cancel when it fails
+                    MessageBox.Show(ex.Message);
+                }
+                catch (Exception ex) // Catch all other exceptions
+                {
+                    actions.DownloadFailed?.Invoke();
+                    _cancel -= actions.DownloadCancelled; // can't cancel when it fails
                     MessageBox.Show(ex.Message);
                 }
             };
@@ -63,25 +75,6 @@ namespace AutomaticFileDownloader.Utilities
             _download = null;
             _cancel = null;
             _dispose = null;
-        }
-
-        public static bool ValidLink(string link)
-        {
-            if (link == null || link.Length <= 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public static bool ValidFilePath(string path)
-        {
-            if (path == null || path.Length <= 0) {
-                return false;
-            }
-
-            return true;
         }
     }
 }

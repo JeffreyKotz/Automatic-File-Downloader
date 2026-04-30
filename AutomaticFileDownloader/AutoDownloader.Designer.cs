@@ -143,7 +143,6 @@ partial class AutoDownloaderForm
         clearDoneButton.TabIndex = 8;
         clearDoneButton.Text = "Clear";
         clearDoneButton.UseVisualStyleBackColor = true;
-        clearDoneButton.Click += clearDoneButton_Click;
         clearDoneButton.MouseClick += clearDoneButton_MouseClick;
         // 
         // fileSaveDialog
