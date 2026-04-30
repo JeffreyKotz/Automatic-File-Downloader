@@ -1,3 +1,6 @@
+obj/
+bin/
+
 # Copied gitignore from: https://github.com/dotnet/winforms/blob/main/.gitignore
 
 ## Ignore Visual Studio temporary files, build results, and
