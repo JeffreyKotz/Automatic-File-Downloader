@@ -9,62 +9,92 @@ public partial class AutoDownloaderForm : Form
         InitializeComponent();
     }
 
-    private void AutoDownloaderForm_Load(object sender, EventArgs e)
+    private Utilities.DownloadActions AddDownloadLabel(string labelText)
     {
-        Console.WriteLine("Form Load");
-    }
-
-    private async void ButtonAdd_MouseClick(object sender, MouseEventArgs e)
-    {
-        Console.WriteLine("Button Add Clicked");
-
-        Panel panel = new Panel()
-        {
-            AutoSize = true,
-        };
-
-        flowLayoutPanelDownloads.Controls.Add(new Label()
+        Label label = new Label()
         {
             Location = new Point(2, 2),
             AutoSize = true,
             ForeColor = Color.White,
-            BackColor = Color.Gray,
-            Text = textBoxLink.Text,
+            BackColor = Color.Black,
+            Text = labelText,
             MaximumSize = new Size(400, 30)
-        });
+        };
 
-        string fileName = textBoxLink.Text.Split("/").Last();
-    await Managers.DownloadManager.DownloadFileAsync(textBoxLink.Text, $"{textBoxTarget.Text}\\{fileName}");
+        flowLayoutPanelDownloads.Controls.Add(label);
+
+        // Set button appearance for different states
+        Action downloadStarted = () => { label.BackColor = Color.DarkGoldenrod; };
+        Action downloadCancelled = () => { label.BackColor = Color.DarkGray; };
+        Action downloadCompleted = () => { label.BackColor = Color.DarkGreen; };
+        Action downloadFailed = () => { label.BackColor = Color.DarkRed; };
+        Action disposeLabel = () => { label.Dispose(); };
+
+        // Return a set of actions denoting the different download states represented by the label
+        return new Utilities.DownloadActions(downloadStarted, downloadCancelled, downloadCompleted, downloadFailed, disposeLabel);
+
+    }
+
+    private void AutoDownloaderForm_Load(object sender, EventArgs e)
+    {
+    }
+
+    private async void ButtonAdd_MouseClick(object sender, MouseEventArgs e)
+    {
+        string linkText = textBoxLink.Text;
+        string targetFile = textBoxTarget.Text;
+
+        if ( ! Utilities.DownloadHandler.ValidLink(linkText) || ! Utilities.DownloadHandler.ValidFilePath(targetFile))
+        {
+            MessageBox.Show("Both web address and file path are required to add download.");
+        }
+        else
+        {
+            Utilities.DownloadActions actions = AddDownloadLabel(linkText);
+
+            // Queue the download
+            Utilities.DownloadHandler.AddDownload(linkText, targetFile, actions);
+
+            // Clear text
+            textBoxLink.Text = null;
+            textBoxTarget.Text = null;
+        }
     }
 
     private void ButtonSetTarget_MouseClick(object sender, MouseEventArgs e)
     {
-        Console.WriteLine("Button Set Target Clicked");
-
-        if (folderBrowserDialogTarget.ShowDialog() == DialogResult.OK)
+        if (fileSaveDialog.ShowDialog() == DialogResult.OK)
         {
-            textBoxTarget.Text = folderBrowserDialogTarget.SelectedPath;
+            textBoxTarget.Text = fileSaveDialog.FileName;
         }
     }
 
     private void ButtonStart_MouseCaptureChanged(object sender, EventArgs e)
     {
-        Console.WriteLine("Button Start Clicked");
+        Utilities.DownloadHandler.StartDownload();
     }
 
-    private void ButtonCancel_MouseClick(object sender, MouseEventArgs e)
+    private async void ButtonCancel_MouseClick(object sender, MouseEventArgs e)
     {
-        Console.WriteLine("Button Cancel Clicked");
-        DownloadManager.Test();
+        await Utilities.DownloadHandler.CancelDownload();
     }
 
     private void FolderBrowserDialogTarget_HelpRequest(object sender, EventArgs e)
     {
 
     }
+    private void fileSaveDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+
+    }
 
     private void clearDoneButton_MouseClick(object sender, MouseEventArgs e)
     {
-        Console.WriteLine("Clear Complete Clicked");
+
+    }
+
+    private void clearDoneButton_Click(object sender, EventArgs e)
+    {
+        Utilities.DownloadHandler.Dispose();
     }
 }

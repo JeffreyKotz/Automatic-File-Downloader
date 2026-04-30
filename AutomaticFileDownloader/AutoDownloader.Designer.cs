@@ -28,7 +28,6 @@ partial class AutoDownloaderForm
     /// </summary>
     private void InitializeComponent()
     {
-        components = new System.ComponentModel.Container();
         buttonStart = new Button();
         buttonCancel = new Button();
         textBoxLink = new TextBox();
@@ -36,10 +35,9 @@ partial class AutoDownloaderForm
         flowLayoutPanelDownloads = new FlowLayoutPanel();
         checkBoxAutoStart = new CheckBox();
         buttonSetTarget = new Button();
-        folderBrowserDialogTarget = new FolderBrowserDialog();
         textBoxTarget = new TextBox();
-        contextMenuStrip1 = new ContextMenuStrip(components);
         clearDoneButton = new Button();
+        fileSaveDialog = new SaveFileDialog();
         SuspendLayout();
         // 
         // buttonStart
@@ -72,6 +70,7 @@ partial class AutoDownloaderForm
         textBoxLink.Location = new Point(7, 566);
         textBoxLink.Margin = new Padding(2);
         textBoxLink.Name = "textBoxLink";
+        textBoxLink.PlaceholderText = "Web Address (e.g. https://www.google.com)";
         textBoxLink.Size = new Size(478, 31);
         textBoxLink.TabIndex = 2;
         // 
@@ -125,24 +124,15 @@ partial class AutoDownloaderForm
         buttonSetTarget.UseVisualStyleBackColor = true;
         buttonSetTarget.MouseClick += ButtonSetTarget_MouseClick;
         // 
-        // folderBrowserDialogTarget
-        // 
-        folderBrowserDialogTarget.HelpRequest += FolderBrowserDialogTarget_HelpRequest;
-        // 
         // textBoxTarget
         // 
         textBoxTarget.BorderStyle = BorderStyle.FixedSingle;
         textBoxTarget.Location = new Point(8, 601);
         textBoxTarget.Margin = new Padding(2);
         textBoxTarget.Name = "textBoxTarget";
+        textBoxTarget.PlaceholderText = "File Path (e.g. /home/user/Downloads/file.txt)";
         textBoxTarget.Size = new Size(478, 31);
         textBoxTarget.TabIndex = 7;
-        // 
-        // contextMenuStrip1
-        // 
-        contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-        contextMenuStrip1.Name = "contextMenuStrip1";
-        contextMenuStrip1.Size = new Size(61, 4);
         // 
         // clearDoneButton
         // 
@@ -151,9 +141,14 @@ partial class AutoDownloaderForm
         clearDoneButton.Name = "clearDoneButton";
         clearDoneButton.Size = new Size(112, 34);
         clearDoneButton.TabIndex = 8;
-        clearDoneButton.Text = "Clear Done";
+        clearDoneButton.Text = "Clear";
         clearDoneButton.UseVisualStyleBackColor = true;
+        clearDoneButton.Click += clearDoneButton_Click;
         clearDoneButton.MouseClick += clearDoneButton_MouseClick;
+        // 
+        // fileSaveDialog
+        // 
+        fileSaveDialog.FileOk += fileSaveDialog_FileOk;
         // 
         // AutoDownloaderForm
         // 
@@ -186,8 +181,7 @@ partial class AutoDownloaderForm
 	private FlowLayoutPanel flowLayoutPanelDownloads;
 	private CheckBox checkBoxAutoStart;
 	private Button buttonSetTarget;
-    private FolderBrowserDialog folderBrowserDialogTarget;
     private TextBox textBoxTarget;
-    private ContextMenuStrip contextMenuStrip1;
     private Button clearDoneButton;
+    private SaveFileDialog fileSaveDialog;
 }

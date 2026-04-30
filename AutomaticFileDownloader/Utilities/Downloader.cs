@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AutomaticFileDownloader.Managers
+namespace AutomaticFileDownloader.Utilities
 {
-    internal class DownloadManager
+    internal static class Downloader
     {
         private static readonly HttpClient _client = new HttpClient();
         private static CancellationTokenSource _s_cts = new CancellationTokenSource();
@@ -44,11 +44,17 @@ namespace AutomaticFileDownloader.Managers
 
             // Wait copy read data to file
             await readStream.CopyToAsync(writeFileStream, 81920, _cancellationToken);
+            
         }
 
         public static async Task Cancel()
         {
             _s_cts.Cancel();
+
+            // Make new cancellation token source to continue downloads
+            _s_cts.Dispose();
+            _s_cts = new CancellationTokenSource();
+            _cancellationToken = _s_cts.Token;
         }
     }
 }
