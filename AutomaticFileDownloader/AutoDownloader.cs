@@ -13,16 +13,22 @@ public partial class AutoDownloaderForm : Form
     {
         Label label = new Label()
         {
-            Location = new Point(2, 2),
-            Size = new Size(445, 30), // limit to size of box and one line
+            //Location = new Point(2, 2),
+            Height = 30,
+            //MinimumSize = new Size(30, 30),
             AutoEllipsis = true,
             ForeColor = Color.White,
             BackColor = Color.Black,
             Text = labelText,
             Margin = new Padding(0, 0, 0, 2),
+            
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
         };
 
-        flowLayoutPanelDownloads.Controls.Add(label);
+
+        downloadsTableLayoutPanel.Controls.Add(label);
+        //flowLayoutPanelDownloads.Controls.Add(label);
+        label.BringToFront();
 
         // Set button appearance for different states
         Action downloadStarted = () => { label.BackColor = Color.DarkGoldenrod; };
@@ -36,16 +42,12 @@ public partial class AutoDownloaderForm : Form
 
     }
 
-    private void AutoDownloaderForm_Load(object sender, EventArgs e)
-    {
-    }
-
     private async void ButtonAdd_MouseClick(object sender, MouseEventArgs e)
     {
         string linkText = textBoxLink.Text;
         string targetFile = textBoxTarget.Text;
 
-        if ( ! Utilities.Downloader.ValidLink(linkText) || ! Utilities.Downloader.ValidFilePath(targetFile))
+        if (!Utilities.Downloader.ValidLink(linkText) || !Utilities.Downloader.ValidFilePath(targetFile))
         {
             MessageBox.Show("Both web address and file path must be given to add download.");
         }
@@ -88,10 +90,5 @@ public partial class AutoDownloaderForm : Form
     private void clearDoneButton_MouseClick(object sender, MouseEventArgs e)
     {
         Utilities.DownloadHandler.Dispose();
-    }
-
-    private void fileSaveDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-    {
-
     }
 }
