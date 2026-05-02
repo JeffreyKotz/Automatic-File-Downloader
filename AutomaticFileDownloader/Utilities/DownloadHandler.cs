@@ -5,7 +5,6 @@ using System.Text;
 
 namespace AutomaticFileDownloader.Utilities
 {
-    public record DownloadActions(Action? DownloadStarted, Action? DownloadCancelled, Action? DownloadCompleted, Action? DownloadFailed, Action? DisposeLabel);
 
     /// <summary>
     /// This class solely exists to manage the different states of the download process
@@ -17,36 +16,36 @@ namespace AutomaticFileDownloader.Utilities
         private static Action? _cancel;
         private static Action? _dispose;
 
-        public static void AddDownload(string url, string targetFilePath, DownloadActions actions)
+        public static void AddDownload(string url, string targetFilePath, OperationActions actions)
         {
-            _cancel += actions.DownloadCancelled;
-            _dispose += actions.DisposeLabel;
+            _cancel += actions.OperationCancelled;
+            _dispose += actions.OperationClear;
             _download += async () =>
             {
                 try
                 {
-                    actions.DownloadStarted?.Invoke();
+                    actions.OperationStarted?.Invoke();
                     await Downloader.DownloadFileAsync(url, targetFilePath);
-                    actions.DownloadCompleted?.Invoke();
-                    _cancel -= actions.DownloadCancelled; // Can't cancel what you already finished :P
+                    actions.OperationCompleted?.Invoke();
+                    _cancel -= actions.OperationCancelled; // Can't cancel what you already finished :P
                 }
                 catch (OperationCanceledException) {} // no op, other method already handles cancellation logic
                 catch (HttpRequestException ex) // Issue with request
                 {
-                    actions.DownloadFailed?.Invoke();
-                    _cancel -= actions.DownloadCancelled; // can't cancel when it fails
+                    actions.OperationFailed?.Invoke();
+                    _cancel -= actions.OperationCancelled; // can't cancel when it fails
                     MessageBox.Show(ex.Message);
                 }
                 catch (IOException ex) // Issue with file operations
                 {
-                    actions.DownloadFailed?.Invoke();
-                    _cancel -= actions.DownloadCancelled; // can't cancel when it fails
+                    actions.OperationFailed?.Invoke();
+                    _cancel -= actions.OperationCancelled; // can't cancel when it fails
                     MessageBox.Show(ex.Message);
                 }
                 catch (Exception ex) // Catch all other exceptions
                 {
-                    actions.DownloadFailed?.Invoke();
-                    _cancel -= actions.DownloadCancelled; // can't cancel when it fails
+                    actions.OperationFailed?.Invoke();
+                    _cancel -= actions.OperationCancelled; // can't cancel when it fails
                     MessageBox.Show(ex.Message);
                 }
             };
