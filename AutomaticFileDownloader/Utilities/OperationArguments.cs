@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AutomaticFileDownloader.Utilities
 {
-    internal class OperationArguments
+    internal abstract class OperationArguments
     {
     }
 }

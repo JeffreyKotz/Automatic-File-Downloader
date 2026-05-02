@@ -10,7 +10,7 @@ namespace AutomaticFileDownloader.Utilities
         private static CancellationTokenSource _s_cts = new CancellationTokenSource();
         private static CancellationToken _cancellationToken = _s_cts.Token;
 
-        public static async Task DownloadFileAsync(string url, string targetFilePath)
+        public static async Task DownloadFileAsync(DownloadArguments args)
         {
             // Add headers to prevent 403 response
             if (!_client.DefaultRequestHeaders.Contains("User-Agent"))
@@ -24,7 +24,7 @@ namespace AutomaticFileDownloader.Utilities
 
             // Send GET request asynchronously with cancellation support
             using HttpResponseMessage response = await _client.GetAsync(
-                url,
+                args.URL,
                 HttpCompletionOption.ResponseHeadersRead,
                 _cancellationToken
             );
@@ -33,7 +33,7 @@ namespace AutomaticFileDownloader.Utilities
 
             // Open stream to write to file
             using var writeFileStream = new FileStream(
-                    targetFilePath,
+                    args.TargetFilePath,
                     FileMode.Create,
                     FileAccess.Write,
                     FileShare.None

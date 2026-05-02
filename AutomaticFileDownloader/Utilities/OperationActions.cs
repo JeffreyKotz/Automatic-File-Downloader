@@ -4,5 +4,11 @@ using System.Text;
 
 namespace AutomaticFileDownloader.Utilities
 {
-    public record OperationActions(Action? OperationStarted, Action? OperationCancelled, Action? OperationCompleted, Action? OperationFailed, Action? OperationClear);
+    public record OperationEvents(
+        EventHandler OperationStarted,
+        EventHandler OperationCancelled,
+        EventHandler OperationCompleted,
+        EventHandler OperationFailed,
+        EventHandler OperationClear
+    );
 }
