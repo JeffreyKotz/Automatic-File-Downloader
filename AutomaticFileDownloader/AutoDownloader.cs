@@ -1,4 +1,3 @@
-using AutomaticFileDownloader.Utilities;
 using AutomaticFileDownloader.Utilities.Handlers;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -6,13 +5,19 @@ namespace AutomaticFileDownloader;
 
 public partial class AutoDownloaderForm : Form
 {
-    private static readonly _downloadHandler = new DownloadHandler();
+    // Define handler for managing downloads
+    private static Utilities.Handlers.DownloadHandler _handler = new Utilities.Handlers.DownloadHandler();
 
     public AutoDownloaderForm()
     {
         InitializeComponent();
     }
 
+    /// <summary>
+    /// Helper method to add a label for a given download operation
+    /// </summary>
+    /// <param name="labelText">label of text</param>
+    /// <returns></returns>
     private OperationEvents AddDownloadLabel(string labelText)
     {
         Label label = new Label()
@@ -25,7 +30,7 @@ public partial class AutoDownloaderForm : Form
             BackColor = Color.Black,
             Text = labelText,
             Margin = new Padding(0, 0, 0, 2),
-            
+
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
         };
 
@@ -35,15 +40,14 @@ public partial class AutoDownloaderForm : Form
         label.BringToFront();
 
         // Set button appearance for different states
-        Action downloadStarted = () => { label.BackColor = Color.DarkGoldenrod; };
-        Action downloadCancelled = () => { label.BackColor = Color.DarkGray; };
-        Action downloadCompleted = () => { label.BackColor = Color.DarkGreen; };
-        Action downloadFailed = () => { label.BackColor = Color.DarkRed; };
-        Action disposeLabel = () => { label.Dispose(); };
+        EventHandler downloadStarted = (sender, args) => { label.BackColor = Color.DarkGoldenrod; };
+        EventHandler downloadCancelled = (sender, args) => { label.BackColor = Color.DarkGray; };
+        EventHandler downloadCompleted = (sender, args) => { label.BackColor = Color.DarkGreen; };
+        EventHandler downloadFailed = (sender, args) => { label.BackColor = Color.DarkRed; };
+        EventHandler disposeLabel = (sender, args) => { label.Dispose(); };
 
         // Return a set of actions denoting the different download states represented by the label
-        return new Utilities.DownloadActions(downloadStarted, downloadCancelled, downloadCompleted, downloadFailed, disposeLabel);
-
+        return new Utilities.Handlers.OperationEvents(downloadStarted, downloadCancelled, downloadCompleted, downloadFailed, disposeLabel);
     }
 
     private async void ButtonAdd_MouseClick(object sender, MouseEventArgs e)
@@ -57,10 +61,11 @@ public partial class AutoDownloaderForm : Form
         }
         else
         {
-            Utilities.DownloadActions actions = AddDownloadLabel(linkText);
+            Utilities.Handlers.OperationEvents events = AddDownloadLabel(linkText);
+            Utilities.Handlers.DownloadArguments args = new Utilities.Handlers.DownloadArguments(linkText, targetFile);
 
             // Queue the downloads
-            DownloadHandler.AddDownload(linkText, targetFile, actions);
+            _handler.QueueOperation(events, args);
 
             // Clear text
             textBoxLink.Text = null;
@@ -69,7 +74,7 @@ public partial class AutoDownloaderForm : Form
             // Start automatically if check box is checked
             if (checkBoxAutoStart.Checked)
             {
-                DownloadHandler.StartDownload();
+                _handler.Start();
             }
         }
     }
@@ -82,17 +87,19 @@ public partial class AutoDownloaderForm : Form
         }
     }
 
-    private void ButtonStart_MouseCaptureChanged(object sender, EventArgs e)
+    private void buttonStart_MouseClick(object sender, MouseEventArgs e)
     {
-        DownloadHandler.StartDownload();
+        _handler.Start();
     }
 
     private async void ButtonCancel_MouseClick(object sender, MouseEventArgs e)
     {
-        await DownloadHandler.CancelDownload();
+        _handler.Cancel();
     }
     private void clearDoneButton_MouseClick(object sender, MouseEventArgs e)
     {
-        DownloadHandler.Dispose();
+        _handler.Clear();
     }
+
+    
 }

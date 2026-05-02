@@ -1,4 +1,4 @@
-﻿using AutomaticFileDownloader.Utilities.Arguments;
+﻿using AutomaticFileDownloader.Utilities.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -48,7 +48,7 @@ namespace AutomaticFileDownloader.Utilities
             
         }
 
-        public static async Task Cancel()
+        public static void Cancel()
         {
             _s_cts.Cancel();
 

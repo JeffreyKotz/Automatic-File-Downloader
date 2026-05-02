@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AutomaticFileDownloader.Utilities.Arguments
+﻿namespace AutomaticFileDownloader.Utilities.Handlers
 {
     // Record storing arguments of download
     public record OperationArguments();

@@ -7,11 +7,11 @@ partial class AutoDownloaderForm
 	/// </summary>
 	private System.ComponentModel.IContainer components = null;
 
-	/// <summary>
-	///  Clean up any resources being used.
-	/// </summary>
-	/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-	protected override void Dispose(bool disposing)
+    /// <summary>
+    ///  Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
 	{
 		if (disposing && (components != null))
 		{
@@ -62,7 +62,7 @@ partial class AutoDownloaderForm
         buttonStart.TabIndex = 0;
         buttonStart.Text = "Start";
         buttonStart.UseVisualStyleBackColor = false;
-        buttonStart.MouseCaptureChanged += ButtonStart_MouseCaptureChanged;
+        buttonStart.MouseClick += buttonStart_MouseClick;
         // 
         // buttonCancel
         // 

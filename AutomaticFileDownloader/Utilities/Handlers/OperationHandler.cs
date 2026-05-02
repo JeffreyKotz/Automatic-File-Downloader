@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AutomaticFileDownloader.Utilities.Handlers
+﻿namespace AutomaticFileDownloader.Utilities.Handlers
 {
     /// <summary>
     /// A generic operation handler class, handles a generic operation that isn't implemented yet
     /// </summary>
-    /// <typeparam name="TArgs"> Generic Type of Arguments given. Took some inspiration from event arguments. https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics</typeparam>
+    /// <typeparam name="TArgs"> Generic Type of Arguments given. Took some inspiration from event arguments. https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/generics#type-constraints </typeparam>
     internal abstract class OperationHandler<TArgs> where TArgs : OperationArguments // limit TArgs to only OperationArguments
     {
         // Define events, iniitally all other events (complete, failed) were also defined here, but I realized that they need to be seperate
         // so that when one operation is completed, all other operations don't appear to be erroneously completed as well
         protected event EventHandler? OperationStarted;
+
         protected event EventHandler? OperationCancelled;
+
         protected event EventHandler? OperationCleared;
+
         protected Action? Operation;
 
         /// <summary>
@@ -26,7 +25,7 @@ namespace AutomaticFileDownloader.Utilities.Handlers
         {
             OperationStarted += events.OperationStarted;
             OperationCancelled += events.OperationCancelled;
-            OperationCleared += events.OperationFailed;
+            OperationCleared += events.OperationClear;
 
             // Queue the actual operation
             Operation += async () =>
@@ -36,11 +35,10 @@ namespace AutomaticFileDownloader.Utilities.Handlers
         }
 
         /// <summary>
-        /// Start the operation handled by this class
+        /// Start the handeled operation
         /// </summary>
         public void Start()
         {
-            Operation?.Invoke();
             OnOperationStarted();
         }
 
@@ -66,6 +64,8 @@ namespace AutomaticFileDownloader.Utilities.Handlers
         protected void OnOperationStarted()
         {
             OperationStarted?.Invoke(this, EventArgs.Empty);
+            Operation?.Invoke(); // start the actual operation
+            Operation = null; // clear operation so it doesn't start twice
             OperationStarted = null; // can't start twice
         }
 
@@ -74,7 +74,9 @@ namespace AutomaticFileDownloader.Utilities.Handlers
         /// </summary>
         protected void OnOperationCancelled()
         {
+            CancelProcessOperation();
             OperationCancelled?.Invoke(this, EventArgs.Empty);
+            Operation = null; // clear operation so it doesn't start
             OperationCancelled = null; // can't cancel twice
             OperationStarted = null; // can't start what has been cancelled
         }
@@ -84,18 +86,23 @@ namespace AutomaticFileDownloader.Utilities.Handlers
         /// </summary>
         protected void OnOperationCleared()
         {
+            Cancel(); // Cancel any inprogress operations
             OperationCleared?.Invoke(this, EventArgs.Empty);
-            OperationStarted = null; // Can't start cleared operations
-            OperationCancelled = null; // Can't cancel either
             OperationCleared = null; // Can't clear twice as well :)
         }
 
         /// <summary>
-        /// Implemented by derived classes, the actual operation being perofrmed
+        /// the actual operation being performed. Implemented by derived classes.
         /// </summary>
         /// <param name="events"> events related to operation necessary for providing updates of individual operation </param>
         /// <param name="args"> arguments for operation </param>
         /// <returns></returns>
         protected abstract Task ProcessOperation(OperationEvents events, TArgs args);
+
+        /// <summary>
+        /// Cancellation of the performed operation, handled by derived classes.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract void CancelProcessOperation();
     }
 }

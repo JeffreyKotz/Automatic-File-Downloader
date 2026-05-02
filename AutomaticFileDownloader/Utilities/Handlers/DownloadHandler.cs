@@ -1,21 +1,14 @@
-﻿using AutomaticFileDownloader.Utilities.Arguments;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using static System.Windows.Forms.Design.AxImporter;
-
-namespace AutomaticFileDownloader.Utilities.Handlers
+﻿namespace AutomaticFileDownloader.Utilities.Handlers
 {
-
     /// <summary>
     /// Handler for download operations.
-    /// 
+    ///
     /// This was very weird with generic templates, I I didn't expect that I could specify the generic type
     /// when deriving for the download handler.
     /// </summary>
     internal class DownloadHandler : OperationHandler<DownloadArguments>
     {
+
         /// <summary>
         /// Process the download operation
         /// </summary>
@@ -49,6 +42,11 @@ namespace AutomaticFileDownloader.Utilities.Handlers
                 OperationCancelled -= events.OperationCancelled; // can't cancel when it fails
                 MessageBox.Show(ex.Message); // show error
             }
+        }
+
+        protected override void CancelProcessOperation()
+        {
+            Downloader.Cancel();
         }
     }
 }

@@ -27,6 +27,7 @@
     <Folder Include="Handlers\" />
     <Folder Include="NewFolder\" />
     <Folder Include="Utilities\Arguem\" />
+    <Folder Include="Utilities\Records\" />
   </ItemGroup>
 
 </Project>
