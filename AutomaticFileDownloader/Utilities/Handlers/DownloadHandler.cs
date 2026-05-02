@@ -44,6 +44,9 @@
             }
         }
 
+        /// <summary>
+        /// Signal downloader to cancel everything
+        /// </summary>
         protected override void CancelProcessOperation()
         {
             Downloader.Cancel();

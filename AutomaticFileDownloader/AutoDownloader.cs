@@ -50,6 +50,11 @@ public partial class AutoDownloaderForm : Form
         return new Utilities.Handlers.OperationEvents(downloadStarted, downloadCancelled, downloadCompleted, downloadFailed, disposeLabel);
     }
 
+    /// <summary>
+    /// Adds download to the queue
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void ButtonAdd_MouseClick(object sender, MouseEventArgs e)
     {
         string linkText = textBoxLink.Text;
@@ -79,6 +84,11 @@ public partial class AutoDownloaderForm : Form
         }
     }
 
+    /// <summary>
+    /// Sets download intended file path
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ButtonSetTarget_MouseClick(object sender, MouseEventArgs e)
     {
         if (fileSaveDialog.ShowDialog() == DialogResult.OK)
@@ -87,15 +97,31 @@ public partial class AutoDownloaderForm : Form
         }
     }
 
+    /// <summary>
+    /// Start downloads
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void buttonStart_MouseClick(object sender, MouseEventArgs e)
     {
         _handler.Start();
     }
 
+    /// <summary>
+    /// Cancel downloads
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void ButtonCancel_MouseClick(object sender, MouseEventArgs e)
     {
         _handler.Cancel();
     }
+
+    /// <summary>
+    /// Clear downloads
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void clearDoneButton_MouseClick(object sender, MouseEventArgs e)
     {
         _handler.Clear();

@@ -11,6 +11,11 @@ namespace AutomaticFileDownloader.Utilities
         private static CancellationTokenSource _s_cts = new CancellationTokenSource();
         private static CancellationToken _cancellationToken = _s_cts.Token;
 
+        /// <summary>
+        /// Download a file according to the given arguments.
+        /// </summary>
+        /// <param name="args">arguments for download operation, path and url.</param>
+        /// <returns></returns>
         public static async Task DownloadFileAsync(DownloadArguments args)
         {
             // Add headers to prevent 403 response
@@ -48,6 +53,9 @@ namespace AutomaticFileDownloader.Utilities
             
         }
 
+        /// <summary>
+        /// Cancel the operation and create a new token source in the event the operation is restarted
+        /// </summary>
         public static void Cancel()
         {
             _s_cts.Cancel();
@@ -73,6 +81,11 @@ namespace AutomaticFileDownloader.Utilities
             return true;
         }
 
+        /// <summary>
+        /// Helper method to check if file path given is valid
+        /// </summary>
+        /// <param name="path">Path to check</param>
+        /// <returns></returns>
         public static bool ValidFilePath(string path)
         {
             if (path == null || path.Length <= 0)

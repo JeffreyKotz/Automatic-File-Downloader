@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="NOTE: Class designer doesn't support records so I just used comments instead">
+    <Position X="4.785" Y="1.049" Height="0.819" Width="1.665" />
+  </Comment>
+  <Comment CommentText="Record: OperationArguments&#xD;&#xA;">
+    <Position X="4.569" Y="2.104" Height="0.291" Width="1.901" />
+  </Comment>
+  <Comment CommentText="Record: DownloadArguments&#xD;&#xA;">
+    <Position X="4.576" Y="3.917" Height="0.291" Width="1.943" />
+  </Comment>
+  <Comment CommentText="     /\ &#xD;&#xA;     |||&#xD;&#xA;     |||&#xD;&#xA;     |||&#xD;&#xA;     |||&#xD;&#xA;     |||">
+    <Position X="5.222" Y="2.521" Height="1.27" Width="0.7" />
+  </Comment>
   <Class Name="AutomaticFileDownloader.Properties.Resources" Collapsed="true">
     <Position X="10" Y="3.75" Width="1.5" />
     <TypeIdentifier>
@@ -21,7 +33,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="AutomaticFileDownloader.Utilities.Downloader" Collapsed="true">
-    <Position X="5" Y="3.75" Width="1.5" />
+    <Position X="12.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAQAAAAEAAAAAAYAAAAAAEAAAAAAAQAAAAAAA=</HashCode>
       <FileName>Utilities\Downloader.cs</FileName>
