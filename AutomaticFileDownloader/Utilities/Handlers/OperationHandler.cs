@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AutomaticFileDownloader.Utilities
+namespace AutomaticFileDownloader.Utilities.Handlers
 {
     /// <summary>
     /// A generic operation handler class, handles a generic operation that isn't implemented yet

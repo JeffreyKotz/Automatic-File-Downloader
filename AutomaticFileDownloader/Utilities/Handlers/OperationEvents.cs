@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AutomaticFileDownloader.Utilities
+namespace AutomaticFileDownloader.Utilities.Handlers
 {
     public record OperationEvents(
         EventHandler OperationStarted,

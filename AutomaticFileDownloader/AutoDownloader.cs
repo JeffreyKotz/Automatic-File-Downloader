@@ -1,15 +1,19 @@
+using AutomaticFileDownloader.Utilities;
+using AutomaticFileDownloader.Utilities.Handlers;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AutomaticFileDownloader;
 
 public partial class AutoDownloaderForm : Form
 {
+    private static readonly _downloadHandler = new DownloadHandler();
+
     public AutoDownloaderForm()
     {
         InitializeComponent();
     }
 
-    private Utilities.DownloadActions AddDownloadLabel(string labelText)
+    private OperationEvents AddDownloadLabel(string labelText)
     {
         Label label = new Label()
         {
@@ -56,7 +60,7 @@ public partial class AutoDownloaderForm : Form
             Utilities.DownloadActions actions = AddDownloadLabel(linkText);
 
             // Queue the downloads
-            Utilities.DownloadHandler.AddDownload(linkText, targetFile, actions);
+            DownloadHandler.AddDownload(linkText, targetFile, actions);
 
             // Clear text
             textBoxLink.Text = null;
@@ -65,7 +69,7 @@ public partial class AutoDownloaderForm : Form
             // Start automatically if check box is checked
             if (checkBoxAutoStart.Checked)
             {
-                Utilities.DownloadHandler.StartDownload();
+                DownloadHandler.StartDownload();
             }
         }
     }
@@ -80,15 +84,15 @@ public partial class AutoDownloaderForm : Form
 
     private void ButtonStart_MouseCaptureChanged(object sender, EventArgs e)
     {
-        Utilities.DownloadHandler.StartDownload();
+        DownloadHandler.StartDownload();
     }
 
     private async void ButtonCancel_MouseClick(object sender, MouseEventArgs e)
     {
-        await Utilities.DownloadHandler.CancelDownload();
+        await DownloadHandler.CancelDownload();
     }
     private void clearDoneButton_MouseClick(object sender, MouseEventArgs e)
     {
-        Utilities.DownloadHandler.Dispose();
+        DownloadHandler.Dispose();
     }
 }

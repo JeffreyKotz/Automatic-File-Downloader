@@ -1,19 +1,28 @@
-﻿using System;
+﻿using AutomaticFileDownloader.Utilities.Arguments;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using static System.Windows.Forms.Design.AxImporter;
 
-namespace AutomaticFileDownloader.Utilities
+namespace AutomaticFileDownloader.Utilities.Handlers
 {
 
     /// <summary>
-    /// This class solely exists to manage the different states of the download process
-    /// I felt that should be the responsibility of a seperate class rather than the form or the downloader itself
+    /// Handler for download operations.
+    /// 
+    /// This was very weird with generic templates, I I didn't expect that I could specify the generic type
+    /// when deriving for the download handler.
     /// </summary>
-    internal class DownloadHandler : OperationHandler
+    internal class DownloadHandler : OperationHandler<DownloadArguments>
     {
-        protected override async Task ProcessOperation(OperationEvents events, OperationArguments args)
+        /// <summary>
+        /// Process the download operation
+        /// </summary>
+        /// <param name="events"> events for the specfic operation </param>
+        /// <param name="args"> arguments for the operation </param>
+        /// <returns></returns>
+        protected override async Task ProcessOperation(OperationEvents events, DownloadArguments args)
         {
             try
             {
@@ -26,19 +35,19 @@ namespace AutomaticFileDownloader.Utilities
             {
                 events.OperationFailed?.Invoke(this, EventArgs.Empty);
                 OperationCancelled -= events.OperationCancelled; // can't cancel when it fails
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message); // show error
             }
             catch (IOException ex) // Issue with file operations
             {
                 events.OperationFailed?.Invoke(this, EventArgs.Empty);
                 OperationCancelled -= events.OperationCancelled; // can't cancel when it fails
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message); // show error
             }
             catch (Exception ex) // Catch all other exceptions
             {
                 events.OperationFailed?.Invoke(this, EventArgs.Empty);
                 OperationCancelled -= events.OperationCancelled; // can't cancel when it fails
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message); // show error
             }
         }
     }

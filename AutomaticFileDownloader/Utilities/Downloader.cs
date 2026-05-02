@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutomaticFileDownloader.Utilities.Arguments;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
