@@ -1,5 +1,8 @@
 # Automatic-File-Downloader
 **By Jeffrey Kotz**
+Licensed under the terms of the MIT license
+
+![Image of Downloader Running](docs/demo.png)
 
 ## Description
 This automatic file downloader can receive a list of links to download automatically
